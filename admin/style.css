@@ -1,0 +1,14 @@
+
+BODY,TD,TABLE,input,textarea {font:normal 10px verdana, tahoma, arial, sans-serif;}
+
+a:visited  {text-decoration : underline;	color: black;}
+a:hover  {text-decoration : underline; color:#999999;}
+a:active  {text-decoration : underline; color:black;}
+a:link  {text-decoration : underline;	color:black;}
+
+.red {color: #990000;}
+.white {color: white;}
+.blue {color:#003399;}
+.yellow {color:#ffcc33;}
+.gray {color:#999999;}
+.black{color:#000000;}
