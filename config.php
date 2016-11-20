@@ -4,33 +4,33 @@ $admin_login='agr';
 $admin_pass='agr';
 
 DEFINE ('SITE_NAME', "QuickLOAD");
-DEFINE ('BASE_URL', "http://84.254.239.106/"); // абсолютный url системы
-DEFINE ('UPLOAD_DIR', "C:/WebServers/home/84.254.239.106/admin/files/"); // папка на сервере в которую будут сохраняться файлы (относительно корневой)
-DEFINE ('UPLOAD_URL', BASE_URL."admin/files/"); // абсолютный url папки для сохранения файлов
+DEFINE ('BASE_URL', "http://84.254.239.106/"); // Р°Р±СЃРѕР»СЋС‚РЅС‹Р№ url СЃРёСЃС‚РµРјС‹
+DEFINE ('UPLOAD_DIR', "C:/WebServers/home/84.254.239.106/admin/files/"); // РїР°РїРєР° РЅР° СЃРµСЂРІРµСЂРµ РІ РєРѕС‚РѕСЂСѓСЋ Р±СѓРґСѓС‚ СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ С„Р°Р№Р»С‹ (РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ РєРѕСЂРЅРµРІРѕР№)
+DEFINE ('UPLOAD_URL', BASE_URL."admin/files/"); // Р°Р±СЃРѕР»СЋС‚РЅС‹Р№ url РїР°РїРєРё РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ С„Р°Р№Р»РѕРІ
 
 DEFINE ('MAX_FILE_SIZE',1024*1024*2); // 2 Mb
-DEFINE ('MAX_DAY_EXPIRED', 30); // максимальный срок хранения
-DEFINE ('TIME_COUNTING', 'upload');  // last|upload - как считать срок хранения со времени последнего скачивания|с даты добавления
+DEFINE ('MAX_DAY_EXPIRED', 30); // РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЃСЂРѕРє С…СЂР°РЅРµРЅРёСЏ
+DEFINE ('TIME_COUNTING', 'upload');  // last|upload - РєР°Рє СЃС‡РёС‚Р°С‚СЊ СЃСЂРѕРє С…СЂР°РЅРµРЅРёСЏ СЃРѕ РІСЂРµРјРµРЅРё РїРѕСЃР»РµРґРЅРµРіРѕ СЃРєР°С‡РёРІР°РЅРёСЏ|СЃ РґР°С‚С‹ РґРѕР±Р°РІР»РµРЅРёСЏ
 
 
-// Конфигурация Базы Данных
+// РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ Р‘Р°Р·С‹ Р”Р°РЅРЅС‹С…
 $db_vars['host']='localhost';
 $db_vars['user']='root';
 $db_vars['pass']='';
 $db_vars['name']='share';
 
-DEFINE ('T_NAME','share_files'); // имя таблицы с файлами
-DEFINE ('TABLE_ADMIN','share_admin_sessions');  // имя таблицы с админ сессиями
+DEFINE ('T_NAME','share_files'); // РёРјСЏ С‚Р°Р±Р»РёС†С‹ СЃ С„Р°Р№Р»Р°РјРё
+DEFINE ('TABLE_ADMIN','share_admin_sessions');  // РёРјСЏ С‚Р°Р±Р»РёС†С‹ СЃ Р°РґРјРёРЅ СЃРµСЃСЃРёСЏРјРё
 
 
 // =====================================
-// Начало программы
+// РќР°С‡Р°Р»Рѕ РїСЂРѕРіСЂР°РјРјС‹
 // ===================================== 
 DEFINE('ADMIN_LOGIN',$admin_login);
 DEFINE('ADMIN_PASSWORD',$admin_pass);
 error_reporting(1);
 
-// общий класс с основными переменными и функциями для работы с базой данных
+// РѕР±С‰РёР№ РєР»Р°СЃСЃ СЃ РѕСЃРЅРѕРІРЅС‹РјРё РїРµСЂРµРјРµРЅРЅС‹РјРё Рё С„СѓРЅРєС†РёСЏРјРё РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р±Р°Р·РѕР№ РґР°РЅРЅС‹С…
 class sitevars {
 	var $query_count=0;
 	var $last_res='';
@@ -55,14 +55,14 @@ function db_connect() {
 	
 	if(!mysql_connect($db_vars['host'],$db_vars['user'],$db_vars['pass'])) { 
 echo "<div style='border:1px dashed black; background-color: #efefef; padding:10px;font-family:verdana;'>
-<b>Не могу подключится к базе, возможно неправильно указаны параметры подключения к базе данных - в файле <span style='color:blue;'>config.php</span>: </b><br><br>
+<b>РќРµ РјРѕРіСѓ РїРѕРґРєР»СЋС‡РёС‚СЃСЏ Рє Р±Р°Р·Рµ, РІРѕР·РјРѕР¶РЅРѕ РЅРµРїСЂР°РІРёР»СЊРЅРѕ СѓРєР°Р·Р°РЅС‹ РїР°СЂР°РјРµС‚СЂС‹ РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С… - РІ С„Р°Р№Р»Рµ <span style='color:blue;'>config.php</span>: </b><br><br>
 		".convert_cyr_string(mysql_error(),'k','w')."</div>";
 		exit; 
 		
 	}
 	if (!mysql_select_db($db_vars['name']))	{
 		echo "<div style='border:1px dashed black; background-color: #efefef; padding:10px;font-family:verdana;'>
-		<b>Не найдена база  <span style='color:blue;'>{$db_vars['name']}</span>, возможно неправильно указаны параметры подключения к базе данных - в файле <span style='color:blue;'>config.php</span>: </b><br><br>
+		<b>РќРµ РЅР°Р№РґРµРЅР° Р±Р°Р·Р°  <span style='color:blue;'>{$db_vars['name']}</span>, РІРѕР·РјРѕР¶РЅРѕ РЅРµРїСЂР°РІРёР»СЊРЅРѕ СѓРєР°Р·Р°РЅС‹ РїР°СЂР°РјРµС‚СЂС‹ РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С… - РІ С„Р°Р№Р»Рµ <span style='color:blue;'>config.php</span>: </b><br><br>
 		".convert_cyr_string(mysql_error(),'k','w')."</div>";		
 		exit();
 	}

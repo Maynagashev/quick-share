@@ -1,7 +1,7 @@
 <?php
 class func {
 
-// проверка идентификатора файла
+// РїСЂРѕРІРµСЂРєР° РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° С„Р°Р№Р»Р°
 function check_key($key) {  
   global $sv;
   $ret = false;
@@ -21,7 +21,7 @@ function check_key($key) {
 }    
 
 
-// увеличиваем счетчик
+// СѓРІРµР»РёС‡РёРІР°РµРј СЃС‡РµС‚С‡РёРє
 function inc_count($d) {  
   global $sv;
   $ret = false;
@@ -32,7 +32,7 @@ function inc_count($d) {
   return $ret;
 }    
 
-// удаляем устарвешие файлы
+// СѓРґР°Р»СЏРµРј СѓСЃС‚Р°СЂРІРµС€РёРµ С„Р°Р№Р»С‹
 function delete_expired() {  
   global $sv;    
   
@@ -46,7 +46,7 @@ function delete_expired() {
   $sv->q("DELETE FROM ".T_NAME." WHERE t_exp<'{$sv->post_time}'");        
 }    
 
-// защита от инъекций SQL
+// Р·Р°С‰РёС‚Р° РѕС‚ РёРЅСЉРµРєС†РёР№ SQL
 function protect($t, $mstrip = 1) {    
   $t = ($mstrip && get_magic_quotes_gpc()) ? stripslashes($t) : $t;
   $t = addslashes($t);    
@@ -54,7 +54,7 @@ function protect($t, $mstrip = 1) {
 }
 
 
-// расширение файла
+// СЂР°СЃС€РёСЂРµРЅРёРµ С„Р°Р№Р»Р°
 function file_extension($filename)
 {
 
@@ -70,48 +70,48 @@ function file_extension($filename)
 return $def;	
 }  
 
-// форма загрузки
+// С„РѕСЂРјР° Р·Р°РіСЂСѓР·РєРё
 function get_upload_form()
 {
   $mfs = round(MAX_FILE_SIZE/1024/1024, 2);
   $de = MAX_DAY_EXPIRED;
   $tc = (TIME_COUNTING == 'upload') ? 
-      'время отсчитывается с даты добавления файла' : 'время отсчитывается с даты последнего скачивания';
+      'РІСЂРµРјСЏ РѕС‚СЃС‡РёС‚С‹РІР°РµС‚СЃСЏ СЃ РґР°С‚С‹ РґРѕР±Р°РІР»РµРЅРёСЏ С„Р°Р№Р»Р°' : 'РІСЂРµРјСЏ РѕС‚СЃС‡РёС‚С‹РІР°РµС‚СЃСЏ СЃ РґР°С‚С‹ РїРѕСЃР»РµРґРЅРµРіРѕ СЃРєР°С‡РёРІР°РЅРёСЏ';
 
 return <<<EOF
             
 <FORM action="index.php" METHOD="POST"  ENCTYPE="multipart/form-data" onsubmit="
     if (document.forms[0].file.value == ''){
-  		alert('Вы не выбрали файл для закачки!');
+  		alert('Р’С‹ РЅРµ РІС‹Р±СЂР°Р»Рё С„Р°Р№Р» РґР»СЏ Р·Р°РєР°С‡РєРё!');
   		return false;
   	}
   	if (document.forms[0].title.value == '')	{
-  		alert('Введите описание файла');
+  		alert('Р’РІРµРґРёС‚Рµ РѕРїРёСЃР°РЅРёРµ С„Р°Р№Р»Р°');
   		return false;
   	}
         
     ">
   <table width=100% cellpadding=10 cellspacing=1 border=0>
     <tr>
-      <td colspan="2">Выберите файл для отправки (maximum {$mfs} MB)<br/>
+      <td colspan="2">Р’С‹Р±РµСЂРёС‚Рµ С„Р°Р№Р» РґР»СЏ РѕС‚РїСЂР°РІРєРё (maximum {$mfs} MB)<br/>
         <INPUT style="width: 300px" TYPE="file" NAME="file" VALUE="" size="33" class="file">
       </td>
     </tr>
     <tr>
       <td colspan="2">  			 
-        Введите краткое описание файла</font><br />
+        Р’РІРµРґРёС‚Рµ РєСЂР°С‚РєРѕРµ РѕРїРёСЃР°РЅРёРµ С„Р°Р№Р»Р°</font><br />
   			<input type="text"  style="width:297px;" name="title" maxlength="100"></textarea>  	
 	    </td>
     </tr>
     <tr>
-      <td width="1%" nowrap><b>Необязательные параметры</b></td>
+      <td width="1%" nowrap><b>РќРµРѕР±СЏР·Р°С‚РµР»СЊРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹</b></td>
       <tD width="99%"><hr></td>
     </tr>
     <tr>
       <td colspan="2">  	
-        Ограничение на количество скачиваний<br/>
+        РћРіСЂР°РЅРёС‡РµРЅРёРµ РЅР° РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРєР°С‡РёРІР°РЅРёР№<br/>
   			<select name="max_dl">
-  			<option value="0">неограничено (по умолчанию)</option>
+  			<option value="0">РЅРµРѕРіСЂР°РЅРёС‡РµРЅРѕ (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ)</option>
   			<option value="1000">1000</option>
   			<option value="100">100</option>
   			<option value="10">10</option>
@@ -121,22 +121,22 @@ return <<<EOF
     </tr>
 	  <tr>
       <td colspan="2">            
-  			Сколько хранить файл? <br/>
+  			РЎРєРѕР»СЊРєРѕ С…СЂР°РЅРёС‚СЊ С„Р°Р№Р»? <br/>
   			<select name="days_expired">
-    			<option value="{$de}">{$de} дней (по умолчанию)</option>
-          <option value="7">неделю</option>
-          <option value="3">три дня</option>
-          <option value="2">два дня</option>
-          <option value="1">24 часа</option>
-          <option value="0.5">12 часов</option>
-          <option value="0.25">6 часов</option>              
+    			<option value="{$de}">{$de} РґРЅРµР№ (РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ)</option>
+          <option value="7">РЅРµРґРµР»СЋ</option>
+          <option value="3">С‚СЂРё РґРЅСЏ</option>
+          <option value="2">РґРІР° РґРЅСЏ</option>
+          <option value="1">24 С‡Р°СЃР°</option>
+          <option value="0.5">12 С‡Р°СЃРѕРІ</option>
+          <option value="0.25">6 С‡Р°СЃРѕРІ</option>              
   			</select><br/>
         <small>* {$tc}</small>
       </td>
     </tr>
 	  <tr>
       <td colspan="2">      
-        <input type="submit" value="Отправить">
+        <input type="submit" value="РћС‚РїСЂР°РІРёС‚СЊ">
       </td>
     </tr>     
   </table>
@@ -146,7 +146,7 @@ return <<<EOF
 EOF;
 }
 
-// сообщение при успешной загрузке
+// СЃРѕРѕР±С‰РµРЅРёРµ РїСЂРё СѓСЃРїРµС€РЅРѕР№ Р·Р°РіСЂСѓР·РєРµ
 function get_uploaded_msg($d)
 {
 
@@ -155,29 +155,29 @@ function get_uploaded_msg($d)
    $bu = BASE_URL;
    $sn = SITE_NAME;   
    $key = $d['d'];
-   $dl_limit = ($d['max_dl'] == 0) ? 'неограничено' : $d['max_dl'];
+   $dl_limit = ($d['max_dl'] == 0) ? 'РЅРµРѕРіСЂР°РЅРёС‡РµРЅРѕ' : $d['max_dl'];
    $time = $d['days_expired'];
    if ($time>=1) {
-      $time.=" дн.";
+      $time.=" РґРЅ.";
    }
    else {
       $time = $time*24;
-      $time .= ' ч.';
+      $time .= ' С‡.';
    }  
   $tc = (TIME_COUNTING == 'upload') ? 
-      'с даты добавления файла' : 'с даты последнего скачивания';     
+      'СЃ РґР°С‚С‹ РґРѕР±Р°РІР»РµРЅРёСЏ С„Р°Р№Р»Р°' : 'СЃ РґР°С‚С‹ РїРѕСЃР»РµРґРЅРµРіРѕ СЃРєР°С‡РёРІР°РЅРёСЏ';     
    
 return <<<EOF
   
-   Файл "{$fn}" ({$sk} KB) успешно загружен.
+   Р¤Р°Р№Р» "{$fn}" ({$sk} KB) СѓСЃРїРµС€РЅРѕ Р·Р°РіСЂСѓР¶РµРЅ.
    <br/><br/>
-   Ссылка для скачивания:
+   РЎСЃС‹Р»РєР° РґР»СЏ СЃРєР°С‡РёРІР°РЅРёСЏ:
    <br/><br/>
    <b><a href='{$bu}?d={$key}'>{$bu}?d={$key}</a></b> 
    <br/><br/>
-   Ограничение по кол-ву скачиваний: <b>{$dl_limit}</b>.<br/>
-   Хранить файл на сервере: <b>{$time} {$tc}</b>.<br/><br/>
-   [ <a href='./'>закачать еще один файл</a> ]
+   РћРіСЂР°РЅРёС‡РµРЅРёРµ РїРѕ РєРѕР»-РІСѓ СЃРєР°С‡РёРІР°РЅРёР№: <b>{$dl_limit}</b>.<br/>
+   РҐСЂР°РЅРёС‚СЊ С„Р°Р№Р» РЅР° СЃРµСЂРІРµСЂРµ: <b>{$time} {$tc}</b>.<br/><br/>
+   [ <a href='./'>Р·Р°РєР°С‡Р°С‚СЊ РµС‰Рµ РѕРґРёРЅ С„Р°Р№Р»</a> ]
    
 
 EOF;
@@ -185,70 +185,70 @@ EOF;
 }
 
 
-// экран скачивания файла
+// СЌРєСЂР°РЅ СЃРєР°С‡РёРІР°РЅРёСЏ С„Р°Р№Р»Р°
 function get_download_screen($d) {  
    $fn = stripslashes($d['filename']);
    $sk = round($d['size']/1024, 2);   
    $bu = BASE_URL;
    $sn = SITE_NAME;   
    $key = $d['d'];
-   $dl_limit = ($d['max_dl'] == 0) ? 'неограничено' : $d['max_dl'];
+   $dl_limit = ($d['max_dl'] == 0) ? 'РЅРµРѕРіСЂР°РЅРёС‡РµРЅРѕ' : $d['max_dl'];
    $time = $d['days_expired'];
    if ($time>=1) {
-      $time.=" дн.";
+      $time.=" РґРЅ.";
    }
    else {
       $time = $time*24;
-      $time .= ' ч.';
+      $time .= ' С‡.';
    }
    $mailed = ($d['mailed']===false) ? "" : "<br/><br/> 
-      (письмо с данной ссылкой отправлено на <a href='mailto:{$d['mailed']}'>{$d['mailed']}</a>)";
+      (РїРёСЃСЊРјРѕ СЃ РґР°РЅРЅРѕР№ СЃСЃС‹Р»РєРѕР№ РѕС‚РїСЂР°РІР»РµРЅРѕ РЅР° <a href='mailto:{$d['mailed']}'>{$d['mailed']}</a>)";
    $show_btn = ($d['max_dl']!=0 && $d['dl'] >= $d['max_dl']) ? 'none' : 'block';
    $hide_btn = ($d['max_dl']!=0 && $d['dl'] >= $d['max_dl']) ? 'block' : 'none';
    
    $size = round($d['size']/1024, 2); $suf = "Kb";
       if ($size>1024) { $size = round($size/1024, 2);  $suf = 'Mb';}
-   $dl = ($d['max_dl'] == 0 ) ? "{$d['dl']} из неограничено" : " {$d['dl']} из {$d['max_dl']}";
+   $dl = ($d['max_dl'] == 0 ) ? "{$d['dl']} РёР· РЅРµРѕРіСЂР°РЅРёС‡РµРЅРѕ" : " {$d['dl']} РёР· {$d['max_dl']}";
         
 return <<<EOF
 <div align=center style='padding:20px;'>    
 	<TABLE cellpadding=5 cellspacing=0 style='margin-bottom: 20px;'>
 	  <TR>
-			<TD width="93" align="left"><b>Файл:</b></TD>
+			<TD width="93" align="left"><b>Р¤Р°Р№Р»:</b></TD>
 			<TD width="200" align="left"><div id="filename">{$d['filename']}</div></TD>
 		</TR>
 
 		<TR>
-			<TD valign="top" align="left"><b>Описание:</b></TD>
+			<TD valign="top" align="left"><b>РћРїРёСЃР°РЅРёРµ:</b></TD>
 			<TD><div id="description" align="left">{$d['title']}</div></TD>
 		</TR>
 
 		<TR>
-			<TD align="left"><b>Размер:</b></TD>
+			<TD align="left"><b>Р Р°Р·РјРµСЂ:</b></TD>
 			<TD align="left"><div id="filesize">{$size}</div></TD>
 		</TR>
 		<TR>
-			<TD align="left"><b>Скачиваний:</b></TD>
+			<TD align="left"><b>РЎРєР°С‡РёРІР°РЅРёР№:</b></TD>
 			<TD align="left"><div id="downloads">{$dl}</div></TD>
 		</TR>
 	</TABLE>    
   <div style='display: {$show_btn};'>
-<form name="download_form" action="index.php?d={$key}&download" method="POST" onsubmit="download_form.download.value='Загружается файл'; download_form.download.disabled=true; ">		
-	<input type="submit" id="download" class="button"  value=" Сохранить файл ">
+<form name="download_form" action="index.php?d={$key}&download" method="POST" onsubmit="download_form.download.value='Р—Р°РіСЂСѓР¶Р°РµС‚СЃСЏ С„Р°Р№Р»'; download_form.download.disabled=true; ">		
+	<input type="submit" id="download" class="button"  value=" РЎРѕС…СЂР°РЅРёС‚СЊ С„Р°Р№Р» ">
 </form>
   </div>
   <div align=center style='display: {$hide_btn}; padding:20;' >
-      <b style='color: #993333;'>Лимит скачиваний достигнут.<br/> Данный файл больше не может быть скачан.</b>
+      <b style='color: #993333;'>Р›РёРјРёС‚ СЃРєР°С‡РёРІР°РЅРёР№ РґРѕСЃС‚РёРіРЅСѓС‚.<br/> Р”Р°РЅРЅС‹Р№ С„Р°Р№Р» Р±РѕР»СЊС€Рµ РЅРµ РјРѕР¶РµС‚ Р±С‹С‚СЊ СЃРєР°С‡Р°РЅ.</b>
   </div>
 <br/>
-   [ <a href='./'>на главную</a> ]    
+   [ <a href='./'>РЅР° РіР»Р°РІРЅСѓСЋ</a> ]    
 </div>
 EOF;
 
 }
 
 
-// список страниц в админке
+// СЃРїРёСЃРѕРє СЃС‚СЂР°РЅРёС† РІ Р°РґРјРёРЅРєРµ
 function pagelist($size, $limit, $page, $url = "index.php?page=")
 {
 GLOBAL $sv;
@@ -276,8 +276,8 @@ for ($i=1;$i<$pages+1;$i++)  {
   }
 }
 
-$out_first="<td class=pagelisttd_light><a href={$url}1{$sv->valid_topic} title='c {$pgs[1]['start_title']} по {$pgs[1]['end_title']} из {$size}'>первая</a></td>";
-$out_last="<td class=pagelisttd_light><a href={$url}{$pages}{$sv->valid_topic} title='c {$pgs[$pages]['start_title']} по {$pgs[$pages]['end_title']} из {$size}'>последняя</a></td>";
+$out_first="<td class=pagelisttd_light><a href={$url}1{$sv->valid_topic} title='c {$pgs[1]['start_title']} РїРѕ {$pgs[1]['end_title']} РёР· {$size}'>РїРµСЂРІР°СЏ</a></td>";
+$out_last="<td class=pagelisttd_light><a href={$url}{$pages}{$sv->valid_topic} title='c {$pgs[$pages]['start_title']} РїРѕ {$pgs[$pages]['end_title']} РёР· {$size}'>РїРѕСЃР»РµРґРЅСЏСЏ</a></td>";
 
 
 // do ==========
@@ -285,7 +285,7 @@ $k=0; $do=""; $do_start=$page-3; if ($do_start<1){$do_start=1;};
 for ($i=$do_start;$i<$page;$i++)
 {
 $k++; if ($k>3){break;};
-$do.="<td class=pagelisttd_light><a href='{$url}{$i}{$sv->valid_topic}' title='Открыть c {$pgs[$i]['start_title']} по {$pgs[$i]['end_title']}, всего {$size}'>$i</a></td>";
+$do.="<td class=pagelisttd_light><a href='{$url}{$i}{$sv->valid_topic}' title='РћС‚РєСЂС‹С‚СЊ c {$pgs[$i]['start_title']} РїРѕ {$pgs[$i]['end_title']}, РІСЃРµРіРѕ {$size}'>$i</a></td>";
 
 if ($i==1){$out_first="";};
 }
@@ -295,12 +295,12 @@ $k=0; $posle="";
 for ($i=$page+1;$i<$pages+1;$i++)
 {
 $k++; if ($k>3){break;};
-$posle.="<td class=pagelisttd_light><a href='{$url}{$i}{$sv->valid_topic}' title='Открыть c {$pgs[$i]['start_title']} по {$pgs[$i]['end_title']}, всего {$size}'>$i</a></td>";
+$posle.="<td class=pagelisttd_light><a href='{$url}{$i}{$sv->valid_topic}' title='РћС‚РєСЂС‹С‚СЊ c {$pgs[$i]['start_title']} РїРѕ {$pgs[$i]['end_title']}, РІСЃРµРіРѕ {$size}'>$i</a></td>";
 if ($i==$pages){$out_last="";};
 }
 
 
-$out_list=$do."<td class=pagelisttd_light style='border: 1px solid blackl'><span title='Всего найдено {$size}, показано c {$pgs[$page]['start_title']} по {$pgs[$page]['end_title']}'><b style='color:black;'>$page</span></td>".$posle;
+$out_list=$do."<td class=pagelisttd_light style='border: 1px solid blackl'><span title='Р’СЃРµРіРѕ РЅР°Р№РґРµРЅРѕ {$size}, РїРѕРєР°Р·Р°РЅРѕ c {$pgs[$page]['start_title']} РїРѕ {$pgs[$page]['end_title']}'><b style='color:black;'>$page</span></td>".$posle;
 
 
 if ($page==1){$out_first="";};
@@ -309,16 +309,16 @@ if ($page==$pages){$out_last="";};
 $prev=$page-1;
 $next=$page+1;
 
-if ($prev<1){$out_prev="";} else {$out_prev="<td class=pagelisttd_light><a href={$url}{$prev}{$sv->valid_topic} title='Предыдущая страница - c {$pgs[$prev]['start_title']} по {$pgs[$prev]['end_title']} из {$size}'>&lt;</a></td>";};
-if ($next>$pages){$out_next="";} else {$out_next="<td class=pagelisttd_light><a href={$url}{$next}{$sv->valid_topic} title='Следующая страница - c {$pgs[$next]['start_title']} по {$pgs[$next]['end_title']} из {$size}'>&gt;</a></td>";};
+if ($prev<1){$out_prev="";} else {$out_prev="<td class=pagelisttd_light><a href={$url}{$prev}{$sv->valid_topic} title='РџСЂРµРґС‹РґСѓС‰Р°СЏ СЃС‚СЂР°РЅРёС†Р° - c {$pgs[$prev]['start_title']} РїРѕ {$pgs[$prev]['end_title']} РёР· {$size}'>&lt;</a></td>";};
+if ($next>$pages){$out_next="";} else {$out_next="<td class=pagelisttd_light><a href={$url}{$next}{$sv->valid_topic} title='РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂР°РЅРёС†Р° - c {$pgs[$next]['start_title']} РїРѕ {$pgs[$next]['end_title']} РёР· {$size}'>&gt;</a></td>";};
 
 
-$out="<table class='pagelist'><tr><td class=pagelisttd>{$sv->valid_ttitle} Страница $page из $pages</td>".$out_first.$out_prev.$out_list.$out_next.$out_last."</tr></table>";
+$out="<table class='pagelist'><tr><td class=pagelisttd>{$sv->valid_ttitle} РЎС‚СЂР°РЅРёС†Р° $page РёР· $pages</td>".$out_first.$out_prev.$out_list.$out_next.$out_last."</tr></table>";
 
 return array($out," LIMIT {$pgs[$page]['start']},{$limit}",($limit*$page-$limit));
 }
 
-// форматирование даты и времени
+// С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ РґР°С‚С‹ Рё РІСЂРµРјРµРЅРё
 function getTime($time,$vid) {	 
 	GLOBAL $sv;
 
@@ -339,9 +339,9 @@ switch ($vid)
 			
 			break;
 
-	case 1: $output="$a[mday] ".$this->rus_month($a["mon"])." $a[year] года";break;
-	case 2: $output="$a[mday] ".$this->rus_month($a["mon"])." $a[year] года, $a[hours]:$min";break;
-	case 3: $output="$a[mday] ".$this->rus_month($a["mon"])." $a[year] года, $dnn, $a[hours]:$min";break;
+	case 1: $output="$a[mday] ".$this->rus_month($a["mon"])." $a[year] РіРѕРґР°";break;
+	case 2: $output="$a[mday] ".$this->rus_month($a["mon"])." $a[year] РіРѕРґР°, $a[hours]:$min";break;
+	case 3: $output="$a[mday] ".$this->rus_month($a["mon"])." $a[year] РіРѕРґР°, $dnn, $a[hours]:$min";break;
 	case 4: 
 			$c_h=date('G');
 			$b_h=date('G',$time);
@@ -352,14 +352,14 @@ switch ($vid)
 			$h=$c_h-$b_h;
 			if ($c_m<$b_m){$c_m=$c_m+60;};
 			$m=$c_m-$b_m;
-			if ($h!=0){$h="$h ч ";} else {$h="";};
-			if ($m!=0){$m="$m мин ";} else {$m="";};
-			if ($h.$m!=""){$output="$h $m назад";} else {$output="сейчас на сайте";};
+			if ($h!=0){$h="$h С‡ ";} else {$h="";};
+			if ($m!=0){$m="$m РјРёРЅ ";} else {$m="";};
+			if ($h.$m!=""){$output="$h $m РЅР°Р·Р°Рґ";} else {$output="СЃРµР№С‡Р°СЃ РЅР° СЃР°Р№С‚Рµ";};
 			break;
 	case 5: 
 			$r=$post_time-$time;	
 			$d=floor($r / 86400);
-			if ($d > 0){ $dt="$d дн назад";} else {$dt="";};
+			if ($d > 0){ $dt="$d РґРЅ РЅР°Р·Р°Рґ";} else {$dt="";};
 	
 			$c_h=date('G');
 			$b_h=date('G',$time);
@@ -370,69 +370,69 @@ switch ($vid)
 			$h=$c_h-$b_h;
 			if ($c_m<$b_m){$c_m=$c_m+60;$h--;};
 			$m=$c_m-$b_m;
-			if ($h!=0){$h="$h ч ";} else {$h="";};
-			if ($m!=0){$m="$m мин ";} else {$m="";};
+			if ($h!=0){$h="$h С‡ ";} else {$h="";};
+			if ($m!=0){$m="$m РјРёРЅ ";} else {$m="";};
 			
 			$dr_day=$b['yday']-$a['yday'];
-			if ($dr_day==1){$dt="вчера";};
-			if ($dr_day==0){$dt="сегодня";};
-			if ($dr_day==2){$dt="позавчера";};
-			if ($dr_day>2){$dt="$dr_day дн. назад";};
+			if ($dr_day==1){$dt="РІС‡РµСЂР°";};
+			if ($dr_day==0){$dt="СЃРµРіРѕРґРЅСЏ";};
+			if ($dr_day==2){$dt="РїРѕР·Р°РІС‡РµСЂР°";};
+			if ($dr_day>2){$dt="$dr_day РґРЅ. РЅР°Р·Р°Рґ";};
 
-			$output="$dt в $a[hours]:$min";
+			$output="$dt РІ $a[hours]:$min";
 			break;
 	};
 	return $output;
 }
 
-// месяц по русски, родительный падеж
+// РјРµСЃСЏС† РїРѕ СЂСѓСЃСЃРєРё, СЂРѕРґРёС‚РµР»СЊРЅС‹Р№ РїР°РґРµР¶
 function rus_month($month){
- if ($month=="1"){$month="января";};
- if ($month=="2"){$month="февраля";};
- if ($month=="3"){$month="марта";};
- if ($month=="4"){$month="апреля";};
- if ($month=="5"){$month="мая";};
- if ($month=="6"){$month="июня";};
- if ($month=="7"){$month="июля";}; 
- if ($month=="8"){$month="августа";};
- if ($month=="9"){$month="сентября";};
- if ($month=="10"){$month="октября";};
- if ($month=="11"){$month="ноября";};
- if ($month=="12"){$month="декабря";};
+ if ($month=="1"){$month="СЏРЅРІР°СЂСЏ";};
+ if ($month=="2"){$month="С„РµРІСЂР°Р»СЏ";};
+ if ($month=="3"){$month="РјР°СЂС‚Р°";};
+ if ($month=="4"){$month="Р°РїСЂРµР»СЏ";};
+ if ($month=="5"){$month="РјР°СЏ";};
+ if ($month=="6"){$month="РёСЋРЅСЏ";};
+ if ($month=="7"){$month="РёСЋР»СЏ";}; 
+ if ($month=="8"){$month="Р°РІРіСѓСЃС‚Р°";};
+ if ($month=="9"){$month="СЃРµРЅС‚СЏР±СЂСЏ";};
+ if ($month=="10"){$month="РѕРєС‚СЏР±СЂСЏ";};
+ if ($month=="11"){$month="РЅРѕСЏР±СЂСЏ";};
+ if ($month=="12"){$month="РґРµРєР°Р±СЂСЏ";};
  return $month;
 }
 
-// день недели по русски
+// РґРµРЅСЊ РЅРµРґРµР»Рё РїРѕ СЂСѓСЃСЃРєРё
 function dntorus($dn){
- if ($dn=="1"){$dn="понедельник";};
- if ($dn=="2"){$dn="вторник";};
- if ($dn=="3"){$dn="среда";};
- if ($dn=="4"){$dn="четверг";};
- if ($dn=="5"){$dn="пятница";};
- if ($dn=="6"){$dn="суббота";};
- if ($dn=="7"){$dn="воскресенье";};
- if ($dn=="0"){$dn="воскресенье";};
+ if ($dn=="1"){$dn="РїРѕРЅРµРґРµР»СЊРЅРёРє";};
+ if ($dn=="2"){$dn="РІС‚РѕСЂРЅРёРє";};
+ if ($dn=="3"){$dn="СЃСЂРµРґР°";};
+ if ($dn=="4"){$dn="С‡РµС‚РІРµСЂРі";};
+ if ($dn=="5"){$dn="РїСЏС‚РЅРёС†Р°";};
+ if ($dn=="6"){$dn="СЃСѓР±Р±РѕС‚Р°";};
+ if ($dn=="7"){$dn="РІРѕСЃРєСЂРµСЃРµРЅСЊРµ";};
+ if ($dn=="0"){$dn="РІРѕСЃРєСЂРµСЃРµРЅСЊРµ";};
 return $dn;
 }
 
-// месяц по русски - именительный падеж
+// РјРµСЃСЏС† РїРѕ СЂСѓСЃСЃРєРё - РёРјРµРЅРёС‚РµР»СЊРЅС‹Р№ РїР°РґРµР¶
 function monthtorus($month){
- if ($month=="1"){$month="январь";};
- if ($month=="2"){$month="февраль";};
- if ($month=="3"){$month="март";};
- if ($month=="4"){$month="апрель";};
- if ($month=="5"){$month="май";};
- if ($month=="6"){$month="июнь";};
- if ($month=="7"){$month="июль";}; 
- if ($month=="8"){$month="август";};
- if ($month=="9"){$month="сентябрь";};
- if ($month=="10"){$month="октябрь";};
- if ($month=="11"){$month="ноябрь";};
- if ($month=="12"){$month="декабрь";};
+ if ($month=="1"){$month="СЏРЅРІР°СЂСЊ";};
+ if ($month=="2"){$month="С„РµРІСЂР°Р»СЊ";};
+ if ($month=="3"){$month="РјР°СЂС‚";};
+ if ($month=="4"){$month="Р°РїСЂРµР»СЊ";};
+ if ($month=="5"){$month="РјР°Р№";};
+ if ($month=="6"){$month="РёСЋРЅСЊ";};
+ if ($month=="7"){$month="РёСЋР»СЊ";}; 
+ if ($month=="8"){$month="Р°РІРіСѓСЃС‚";};
+ if ($month=="9"){$month="СЃРµРЅС‚СЏР±СЂСЊ";};
+ if ($month=="10"){$month="РѕРєС‚СЏР±СЂСЊ";};
+ if ($month=="11"){$month="РЅРѕСЏР±СЂСЊ";};
+ if ($month=="12"){$month="РґРµРєР°Р±СЂСЊ";};
  return $month;
 }  
   
-// скачивание файла
+// СЃРєР°С‡РёРІР°РЅРёРµ С„Р°Р№Р»Р°
 function download_file($d, $resume = true, $speed_limit = 1048576) {
   global $sv;
   
@@ -444,13 +444,13 @@ function download_file($d, $resume = true, $speed_limit = 1048576) {
   $begin_time = time(); 
   set_time_limit( 300 ); 
   if (!file_exists($file)) {
-    $sv->msgs[] = "файл {$file} - не существует";   
+    $sv->msgs[] = "С„Р°Р№Р» {$file} - РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚";   
     return false;
   }
   
   $f = fopen( $file, 'rb' ); 
   if ( !$f ) { 
-    $sv->msgs[] = "не возможно открыть файл {$file} для чтения";   
+    $sv->msgs[] = "РЅРµ РІРѕР·РјРѕР¶РЅРѕ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р» {$file} РґР»СЏ С‡С‚РµРЅРёСЏ";   
     return false;
   } 
   
@@ -474,14 +474,14 @@ function download_file($d, $resume = true, $speed_limit = 1048576) {
 
   
   while( !feof( $f ) && ( connection_status() == 0 ) )  {     
-    // считываем и отдаем очередную часть файла
+    // СЃС‡РёС‚С‹РІР°РµРј Рё РѕС‚РґР°РµРј РѕС‡РµСЂРµРґРЅСѓСЋ С‡Р°СЃС‚СЊ С„Р°Р№Р»Р°
     print fread( $f, $speed_limit );   
     
     //flush(); 
     sleep(0.5); 
     $running_time = time() - $begin_time; 
     
-    // увеличиваем лимит времени на исполение скрипта если подходит к концу
+    // СѓРІРµР»РёС‡РёРІР°РµРј Р»РёРјРёС‚ РІСЂРµРјРµРЅРё РЅР° РёСЃРїРѕР»РµРЅРёРµ СЃРєСЂРёРїС‚Р° РµСЃР»Рё РїРѕРґС…РѕРґРёС‚ Рє РєРѕРЅС†Сѓ
     if( $running_time > 240 ) { 
         set_time_limit(300); 
         $begin_time = time(); 

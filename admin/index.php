@@ -13,7 +13,7 @@ session_start();
 
 $sv->sid = session_id();
 
-// проверка вход в систему
+// РїСЂРѕРІРµСЂРєР° РІС…РѕРґ РІ СЃРёСЃС‚РµРјСѓ
 if (isset($sv->_post['new_pass'])  && isset($sv->_post['new_login'])) {
 	$new_pass  = $std->protect($sv->_post['new_pass']);
 	$new_login = $std->protect($sv->_post['new_login']);
@@ -25,12 +25,12 @@ if (isset($sv->_post['new_pass'])  && isset($sv->_post['new_login'])) {
 }
 
 
-// проверка session
+// РїСЂРѕРІРµСЂРєР° session
 $sv->q("SELECT * FROM  ".TABLE_ADMIN." WHERE sid='{$sv->sid}'");
 
 if ($sv->nr()!=1){
   echo authform();
-  die('Войдите в систему....');
+  die('Р’РѕР№РґРёС‚Рµ РІ СЃРёСЃС‚РµРјСѓ....');
 }
 
 $act = (!isset($sv->_get['act'])) ? 'default' : $sv->_get['act'];
@@ -58,15 +58,15 @@ switch ($act){
 }
 
 
-// Страница администратора
+// РЎС‚СЂР°РЅРёС†Р° Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°
 $sv->nav=" :: 	
-	<a href=../index.php>Форма загрузки</a> ::
-	<a href=index.php?act=exit>ВЫХОД</a> ::
+	<a href=../index.php>Р¤РѕСЂРјР° Р·Р°РіСЂСѓР·РєРё</a> ::
+	<a href=index.php?act=exit>Р’Р«РҐРћР”</a> ::
 	";
 
 $sv->msg = implode("<br/>", $sv->msgs);
 $sv->out="
-<title>Страница администратора</title>
+<title>РЎС‚СЂР°РЅРёС†Р° Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°</title>
 <LINK REL='StyleSheet' HREF='style.css' TYPE='text/css'>
 <table width=100% cellpadding=5>
 <tr><td bgcolor=#eeeeee>{$sv->nav}</td></tr>
@@ -79,7 +79,7 @@ print ($sv->out);
 
 
 // =============================
-// Функции
+// Р¤СѓРЅРєС†РёРё
 // =============================
 function this_default()
 {
@@ -99,44 +99,44 @@ function this_default()
       $t_exp = $std->gettime($d['t_exp'], 0);
       $t_del = round(($d['t_exp'] - $sv->post_time)/60/60, 2);
       
-      $dl = ($d['max_dl'] == 0 ) ? "{$d['dl']} из неограничено" : " {$d['dl']} из {$d['max_dl']}";
+      $dl = ($d['max_dl'] == 0 ) ? "{$d['dl']} РёР· РЅРµРѕРіСЂР°РЅРёС‡РµРЅРѕ" : " {$d['dl']} РёР· {$d['max_dl']}";
       $uu = UPLOAD_URL;      
 
     	$list.="<tr bgcolor='$bg'>
     			<td valign=top align=center>{$d['id']}</td>
     			<td valign=top>
-              Имя: <b>{$d['filename']}</b> <br/>
-              Размер: <b>{$size} {$suf}</b><br/>
-              Тип: <b>{$d['mime']}</b><br/>
-              Сохранен как: <a href='{$uu}{$d['s_filename']}'>{$d['s_filename']}</a> <br/>
-              Описание: {$d['title']}
+              РРјСЏ: <b>{$d['filename']}</b> <br/>
+              Р Р°Р·РјРµСЂ: <b>{$size} {$suf}</b><br/>
+              РўРёРї: <b>{$d['mime']}</b><br/>
+              РЎРѕС…СЂР°РЅРµРЅ РєР°Рє: <a href='{$uu}{$d['s_filename']}'>{$d['s_filename']}</a> <br/>
+              РћРїРёСЃР°РЅРёРµ: {$d['title']}
              </td>
     			<td valign=top>
-              Кол-во скач.: {$dl}<br/>
+              РљРѕР»-РІРѕ СЃРєР°С‡.: {$dl}<br/>
               IP: {$d['ip']}<br/>
-              Время: {$d['days_expired']} дн.<br/>              
+              Р’СЂРµРјСЏ: {$d['days_expired']} РґРЅ.<br/>              
              </td>
     			<td valign=top>
-             {$t_upload} (cоздан)  <br/>
-             {$t_exp} (удалица)<br/>
-             До удаления: {$t_del} ч.
+             {$t_upload} (cРѕР·РґР°РЅ)  <br/>
+             {$t_exp} (СѓРґР°Р»РёС†Р°)<br/>
+             Р”Рѕ СѓРґР°Р»РµРЅРёСЏ: {$t_del} С‡.
             </td>
     			<td valign=top >
-              <a href='index.php?act=del&id={$d['id']}'>Удалить</a> <br/><br/>
-              <a href='../index.php?d={$d['d']}'>Страница файла</a> <br/>    
+              <a href='index.php?act=del&id={$d['id']}'>РЈРґР°Р»РёС‚СЊ</a> <br/><br/>
+              <a href='../index.php?d={$d['d']}'>РЎС‚СЂР°РЅРёС†Р° С„Р°Р№Р»Р°</a> <br/>    
             </td>
     		</tr>";
     };
 
-// оформление ТАБЛИЦЫ
+// РѕС„РѕСЂРјР»РµРЅРёРµ РўРђР‘Р›РР¦Р«
     $sv->html="
     <table width=100% cellpadding=3>
     <tr>
     <td style='border:2px solid black;'><b>No.</td>
-    <td style='border:2px solid black;'><b>Файл</td>
-    <td style='border:2px solid black;'><b>Пользователь</td>
-    <td style='border:2px solid black;'><b>Время</td>
-    <td style='border:2px solid black;'><b>Опции</td>
+    <td style='border:2px solid black;'><b>Р¤Р°Р№Р»</td>
+    <td style='border:2px solid black;'><b>РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ</td>
+    <td style='border:2px solid black;'><b>Р’СЂРµРјСЏ</td>
+    <td style='border:2px solid black;'><b>РћРїС†РёРё</td>
     </tr>
     ".$list."
      <tr><td colspan=6 style='border-top:2px solid black;'>&nbsp;</td> </tr>
@@ -144,7 +144,7 @@ function this_default()
     ";
 };
 
-// удаляем файл
+// СѓРґР°Р»СЏРµРј С„Р°Р№Р»
 function this_del() {
 	GLOBAL $sv, $std;
 	
@@ -159,27 +159,27 @@ function this_del() {
     return $ret;
 }
            
-// Окно удаления файла
+// РћРєРЅРѕ СѓРґР°Р»РµРЅРёСЏ С„Р°Р№Р»Р°
 function this_del_confirm()
 {
   global $sv;
-  $sv->html = "Вы действительно хотите удалить файл (id: {$sv->_get['id']})?
+  $sv->html = "Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ С„Р°Р№Р» (id: {$sv->_get['id']})?
   <br/><br/>
-  [ <a href='index.php?act=del&id={$sv->_get['id']}&accepted=yes'>ДА</a> ] 
+  [ <a href='index.php?act=del&id={$sv->_get['id']}&accepted=yes'>Р”Рђ</a> ] 
   &nbsp;  &nbsp;  &nbsp;  &nbsp;
-  [ <a href='index.php'>нет</a> ]  
+  [ <a href='index.php'>РЅРµС‚</a> ]  
   ";
 };
 
-// Окно входа в систему    
+// РћРєРЅРѕ РІС…РѕРґР° РІ СЃРёСЃС‚РµРјСѓ    
 function authform()
 {
 return "
-<title>Вход в систему</title>
+<title>Р’С…РѕРґ РІ СЃРёСЃС‚РµРјСѓ</title>
 <LINK REL='StyleSheet' HREF='style.css' TYPE='text/css'>
 <form action=index.php method=post>
-Имя пользователя: <br><input type=text name=new_login><br><br>
-Пароль: <br><input type=password name=new_pass><br><br>
+РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: <br><input type=text name=new_login><br><br>
+РџР°СЂРѕР»СЊ: <br><input type=password name=new_pass><br><br>
 <input type=submit><br><br>
 </form>";
 };
